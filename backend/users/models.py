@@ -6,25 +6,20 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 class UserManager(BaseUserManager):
 
     def create_user(self, email: str, password: str):
-        if not (email or password):
-            raise ValueError("Email and password are required")
-        
         user = self.model(email=self.normalize_email(email))
         user.set_password(password)
         user.save(using=self._db)
-        
         return user
-
 
 class User(AbstractBaseUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.EmailField(unique=True)
 
-    objects = UserManager()
-    
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
 
+    objects = UserManager()
+    
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 

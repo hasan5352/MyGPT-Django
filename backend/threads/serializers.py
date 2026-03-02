@@ -10,5 +10,5 @@ class ThreadSerializer(serializers.ModelSerializer):
 class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
-        fields = ['role', 'content', 'thread_id']
+        fields = '__all__'
 
