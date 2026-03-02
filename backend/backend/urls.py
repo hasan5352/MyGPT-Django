@@ -16,9 +16,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import JsonResponse
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/auth/', include('auth.urls'))
-
+    path('api/auth/', include('auth.urls')),
+    path('api/threads/', include('threads.urls'))
 ]
+
+def custom_404(request, exception):
+    return JsonResponse({
+        "message": "Not Found",
+        "body": {"errors": {}}
+    }, status=404)
+
+handler404 = custom_404
